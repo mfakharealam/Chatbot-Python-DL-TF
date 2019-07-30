@@ -6,6 +6,7 @@ timeframe = '2015-01'
 sql_transaction = []  # will do bunch of queries altogether
 connection = sqlite3.connect('{}.db'.format(timeframe))
 cursor = connection.cursor()
+cleanup = 1000000
 
 
 def create_table():
@@ -71,8 +72,8 @@ def transaction_builder(sql):   # to commit insertion statements in groups rathe
 
 def sql_insert_replace_comment(comm_id, p_id, parent, comm, subred, time, scor):
     try:
-        sql = """UPDATE prent_reply SET parent_id = ?, comment_id = ?, parent = ?, comment = ?, subreddit = ?,
-        unix = ?, score = ? WHERE parent_id = ?;""".format(p_id, comm_id, parent, comm, subred, int(time), scor, p_id)
+        sql = """UPDATE prent_reply SET parent_id = {}, comment_id = {}, parent = {}, comment = {}, subreddit = {},
+        unix = {}, score = {} WHERE parent_id = {};""".format(p_id, comm_id, parent, comm, subred, int(time), scor, p_id)
         transaction_builder(sql)
     except Exception as e:
         print("During insert&replace ", str(e))
@@ -131,3 +132,11 @@ if __name__ == "__main__":
 
             if row_counter % 100000 == 0:
                 print("Total rows read: {}, Paired rows: {}, Time: {}".format(row_counter, paired_rows, str(datetime.now())))
+
+            if row_counter % cleanup == 0:  # for cleaning up comments without parents
+                print("Cleanin up!")
+                sql = "DELETE FROM parent_reply WHERE parent IS NULL"
+                cursor.execute(sql)
+                connection.commit()
+                cursor.execute("VACUUM")
+                connection.commit()
