@@ -35,8 +35,7 @@ if __name__ == "__main__":
     create_table()
     row_counter = 0     # db rows
     paired_rows = 0     # parent & child pairs in comments(reddit)
-    with open("C:/Users/Muhammad Fakhar/PycharmProjects/RC_{}".format(timeframe.split('-')[0],
-                                                                      timeframe), buffering=1000) as file:
+    with open("C:/Users/Muhammad Fakhar/PycharmProjects/RC_2015-01", buffering=1000) as file:
         for row in file:
             row_counter += 1
             row = json.loads(row)
