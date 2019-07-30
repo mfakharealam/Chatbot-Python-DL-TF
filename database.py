@@ -108,8 +108,8 @@ if __name__ == "__main__":
         for row in file:
             row_counter += 1
             row = json.loads(row)
-            parent_id = row['parent_id']
-            comment_id = row['name']
+            parent_id = row['parent_id'].split('_')[1]
+            comment_id = row['name'].split('_')[1]
             body = format_data(row['body'])     # clean up data
             created_utc = row['created_utc']
             score = row['score']
