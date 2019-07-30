@@ -121,10 +121,10 @@ if __name__ == "__main__":
                     existing_comment_score = find_existing_score(parent_id)
                     if existing_comment_score:
                         if score > existing_comment_score:
-                            sql_insert_replace_comment(comment_id, parent_id, parent_data, subreddit, created_utc, score)
+                            sql_insert_replace_comment(comment_id, parent_id, parent_data, body, subreddit, created_utc, score)
                     else:
                         if parent_data:  # it means, it's a reply
-                            sql_insert_has_parent(comment_id, parent_id, parent_data, subreddit, created_utc, score)
+                            sql_insert_has_parent(comment_id, parent_id, parent_data, body, subreddit, created_utc, score)
                             paired_rows += 1
                         else:
                             sql_insert_no_parent(comment_id, parent_id, body, subreddit, created_utc, score)
