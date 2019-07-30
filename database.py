@@ -92,7 +92,7 @@ def sql_insert_has_parent(c_id, p_id, p, c, sub, t, sc):
 def sql_insert_no_parent(c_id, p_id, c, sub, t, sc):
     try:
         sql = """INSERT INTO parent_reply (parent_id, comment_id, comment, subreddit, unix, score)
-        VALUES ("{}", "{}", "{}", "{}", "{}", {} ,{})""".format(p_id, c_id, c, sub, int(t), sc)
+        VALUES ("{}", "{}", "{}", "{}", {} ,{})""".format(p_id, c_id, c, sub, int(t), sc)
         transaction_builder(sql)
     except Exception as e:
         print("During insertion2 ", str(e))
@@ -108,7 +108,7 @@ if __name__ == "__main__":
             row_counter += 1
             row = json.loads(row)
             parent_id = row['parent_id']
-            comment_id = row['comment_id']
+            comment_id = row['name']
             body = format_data(row['body'])     # clean up data
             created_utc = row['created_utc']
             score = row['score']
